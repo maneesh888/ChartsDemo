@@ -11,6 +11,17 @@
 		9F549FA32B8F1459007C79BD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FA22B8F1459007C79BD /* ContentView.swift */; };
 		9F549FA52B8F145C007C79BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F549FA42B8F145C007C79BD /* Assets.xcassets */; };
 		9F549FA82B8F145C007C79BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F549FA72B8F145C007C79BD /* Preview Assets.xcassets */; };
+		9F549FAF2B8F1489007C79BD /* VPBarMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FAE2B8F1489007C79BD /* VPBarMarkView.swift */; };
+		9F549FB12B8F1491007C79BD /* VPLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FB02B8F1491007C79BD /* VPLineChartView.swift */; };
+		9F549FB32B8F155C007C79BD /* VPPallete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FB22B8F155C007C79BD /* VPPallete.swift */; };
+		9F549FB52B8F1565007C79BD /* VPFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FB42B8F1565007C79BD /* VPFont.swift */; };
+		9F549FB72B8F156A007C79BD /* Font-VisionPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FB62B8F156A007C79BD /* Font-VisionPro.swift */; };
+		9F549FB92B8F1575007C79BD /* Color-VisionPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FB82B8F1575007C79BD /* Color-VisionPro.swift */; };
+		9F549FBD2B8F181B007C79BD /* VPMixedChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FBC2B8F181B007C79BD /* VPMixedChartView.swift */; };
+		9F549FC22B91B240007C79BD /* VPBarMarkViewOrg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FBE2B91A261007C79BD /* VPBarMarkViewOrg.swift */; };
+		9F549FC32B91F173007C79BD /* VPLineChartViewOrg.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F549FC02B91AF9C007C79BD /* VPLineChartViewOrg.swift */; };
+		9FD73ADA2B95D080005D82A0 /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD73AD92B95D080005D82A0 /* DummyData.swift */; };
+		9FD73ADC2B95ED87005D82A0 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FD73ADB2B95ED87005D82A0 /* Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +30,17 @@
 		9F549FA22B8F1459007C79BD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9F549FA42B8F145C007C79BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F549FA72B8F145C007C79BD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9F549FAE2B8F1489007C79BD /* VPBarMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPBarMarkView.swift; sourceTree = "<group>"; };
+		9F549FB02B8F1491007C79BD /* VPLineChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPLineChartView.swift; sourceTree = "<group>"; };
+		9F549FB22B8F155C007C79BD /* VPPallete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPPallete.swift; sourceTree = "<group>"; };
+		9F549FB42B8F1565007C79BD /* VPFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VPFont.swift; sourceTree = "<group>"; };
+		9F549FB62B8F156A007C79BD /* Font-VisionPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Font-VisionPro.swift"; sourceTree = "<group>"; };
+		9F549FB82B8F1575007C79BD /* Color-VisionPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color-VisionPro.swift"; sourceTree = "<group>"; };
+		9F549FBC2B8F181B007C79BD /* VPMixedChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPMixedChartView.swift; sourceTree = "<group>"; };
+		9F549FBE2B91A261007C79BD /* VPBarMarkViewOrg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VPBarMarkViewOrg.swift; path = ../../../Downloads/VPBarMarkViewOrg.swift; sourceTree = "<group>"; };
+		9F549FC02B91AF9C007C79BD /* VPLineChartViewOrg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VPLineChartViewOrg.swift; path = ../../../Downloads/VPLineChartViewOrg.swift; sourceTree = "<group>"; };
+		9FD73AD92B95D080005D82A0 /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
+		9FD73ADB2B95ED87005D82A0 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,8 +75,19 @@
 			children = (
 				9F549FA02B8F1459007C79BD /* DewaChartsApp.swift */,
 				9F549FA22B8F1459007C79BD /* ContentView.swift */,
+				9F549FB02B8F1491007C79BD /* VPLineChartView.swift */,
+				9F549FBC2B8F181B007C79BD /* VPMixedChartView.swift */,
+				9F549FAE2B8F1489007C79BD /* VPBarMarkView.swift */,
+				9F549FB42B8F1565007C79BD /* VPFont.swift */,
+				9F549FB22B8F155C007C79BD /* VPPallete.swift */,
+				9F549FB82B8F1575007C79BD /* Color-VisionPro.swift */,
+				9F549FB62B8F156A007C79BD /* Font-VisionPro.swift */,
+				9F549FBE2B91A261007C79BD /* VPBarMarkViewOrg.swift */,
+				9F549FC02B91AF9C007C79BD /* VPLineChartViewOrg.swift */,
 				9F549FA42B8F145C007C79BD /* Assets.xcassets */,
 				9F549FA62B8F145C007C79BD /* Preview Content */,
+				9FD73AD92B95D080005D82A0 /* DummyData.swift */,
+				9FD73ADB2B95ED87005D82A0 /* Models.swift */,
 			);
 			path = DewaCharts;
 			sourceTree = "<group>";
@@ -137,8 +170,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9FD73ADA2B95D080005D82A0 /* DummyData.swift in Sources */,
+				9FD73ADC2B95ED87005D82A0 /* Models.swift in Sources */,
+				9F549FB32B8F155C007C79BD /* VPPallete.swift in Sources */,
+				9F549FB72B8F156A007C79BD /* Font-VisionPro.swift in Sources */,
+				9F549FBD2B8F181B007C79BD /* VPMixedChartView.swift in Sources */,
+				9F549FC32B91F173007C79BD /* VPLineChartViewOrg.swift in Sources */,
 				9F549FA32B8F1459007C79BD /* ContentView.swift in Sources */,
+				9F549FC22B91B240007C79BD /* VPBarMarkViewOrg.swift in Sources */,
+				9F549FB52B8F1565007C79BD /* VPFont.swift in Sources */,
+				9F549FAF2B8F1489007C79BD /* VPBarMarkView.swift in Sources */,
+				9F549FB92B8F1575007C79BD /* Color-VisionPro.swift in Sources */,
 				9F549FA12B8F1459007C79BD /* DewaChartsApp.swift in Sources */,
+				9F549FB12B8F1491007C79BD /* VPLineChartView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,6 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DewaCharts/Preview Content\"";
+				DEVELOPMENT_TEAM = 3VSNLS7N3U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -300,6 +345,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"DewaCharts/Preview Content\"";
+				DEVELOPMENT_TEAM = 3VSNLS7N3U;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

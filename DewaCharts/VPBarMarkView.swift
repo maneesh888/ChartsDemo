@@ -10,64 +10,48 @@ import SwiftUI
 import Charts
 
 
-let cupertinoData: [(weekday: Date, sales: Int)] = [
-    (Date(), 50), // Today's sales
-    (Date().addingTimeInterval(-86400), 120), // Yesterday's sales
-    (Date().addingTimeInterval(-172800), 90), // Two days ago sales
-    // Add more data as needed...
-]
-
-let sfData: [(weekday: Date, sales: Int)] = [
-    (Date(), 100), // Today's sales
-    (Date().addingTimeInterval(-86400), 130), // Yesterday's sales
-    (Date().addingTimeInterval(-172800), 110), // Two days ago sales
-    // Add more data as needed...
-]
-
-let seriesData = [
-    (city: "Cupertino", data: cupertinoData),
-    (city: "San Francisco", data: sfData),
-    (city: "New York", data: cupertinoData)
-]
 
 
-struct VPBarMarkView: View {
+struct VPBarMarkView:View {
+    
+    let timeStrideBy:Calendar.Component
+    let data: [DWGraphData]
+    let showLegend: Bool
+    
     var body: some View {
-        Chart {
-            ForEach(seriesData, id: \.city) { series in
-                
-                
-                
-                ForEach(series.data, id: \.weekday) {
-                                
-                    BarMark(
-                        x: .value ("Weekday", $0.weekday, unit: .day),
-                        y: .value("Sales", $0.sales),
-                        width: 20
-                    )
+                Chart {
+        
+                    ForEach(data, id: \.title) { year in // 3 loops
+                        
+                        ForEach(year.points, id: \.time) {
+                            
+                            BarMark(
+                                x: .value("Month",  $0.time, unit: .month),
+                                y: .value("Consumption",  $0.value),
+                                width: 10
+                            )
+        
+                        }
+                        .foregroundStyle(by: .value("Year", year.title))
+                        .position(by: .value("Year", year.title))
+                    }
                 }
-                .foregroundStyle(by: .value("City", series .city))
-//                .symbol(by: .value("City", series.city))
-                .position (by: .value("City", series.city))
-
-            }
-        }.chartXAxis {
-            AxisMarks(position: .bottom) { value in
-                AxisValueLabel().foregroundStyle(.red)
-            }
-        }
-
-//        .chartXAxis {
-//            AxisMarks(preset: .extended, values: .stride (by: .month)) { value in
-//                AxisValueLabel(format: .dateTime.month())
-//            }
-//        }
-        .chartYAxis {
-            AxisMarks(preset: .extended, position: .leading, values: .stride(by: 50))
-        }.padding()
+                .chartXAxis {
+                    AxisMarks(preset: .automatic, values: .stride (by: timeStrideBy)) { value in
+                        AxisValueLabel(format: .dateTime.month(), multiLabelAlignment:.top)
+                        
+                    }
+                }
+                .chartYAxis {
+                    AxisMarks(preset: .extended, position: .leading, values: .stride(by: 500))
+                }
+                .chartLegend( showLegend ? .visible : .hidden)
+            
+        
     }
 }
 
 #Preview {
-    VPBarMarkView()
+    VPBarMarkView(timeStrideBy: .month, data:generateRandomData.combineYear, showLegend: true)
 }
+
