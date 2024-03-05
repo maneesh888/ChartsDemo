@@ -112,4 +112,24 @@ extension [DWGraphData] {
         []
     }
     
+    
+    var highestRoundedPointCeilingValue: Double? {
+        // Initialize the maximum value with the smallest possible value
+        var maxValue: Double = -.greatestFiniteMagnitude
+        
+        // Find the highest value among all points
+        for graphData in self {
+            for (_, value) in graphData.points {
+                maxValue = Swift.max(maxValue, value)
+            }
+        }
+        
+        // Calculate the ceiling value
+        guard maxValue != -.greatestFiniteMagnitude else {
+            return nil // Return nil if no points exist
+        }
+        let roundedCeilingValue = (maxValue / 1000).rounded(.up) * 1000
+        return roundedCeilingValue
+    }
+    
 }

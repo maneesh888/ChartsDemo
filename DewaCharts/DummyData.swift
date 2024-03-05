@@ -17,7 +17,7 @@ var generateRandomData: [DWGraphData] {
     
     var graphDataArray: [DWGraphData] = []
     
-    for year in currentYear...currentYear {
+    for year in currentYear-2...currentYear {
         var color: Color
         
         // Assign different colors to each year

@@ -18,6 +18,13 @@ struct VPBarMarkView:View {
     let data: [DWGraphData]
     let showLegend: Bool
     
+    private var strideValue: Double {
+        if let highestRoundedPointCeilingValue = data.highestRoundedPointCeilingValue {
+            return ceil(highestRoundedPointCeilingValue/5)
+        }
+        return 500
+    }
+    
     var body: some View {
                 Chart {
         
@@ -43,7 +50,7 @@ struct VPBarMarkView:View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks(preset: .extended, position: .leading, values: .stride(by: 500))
+                    AxisMarks(preset: .extended, position: .leading, values: .stride(by: strideValue))
                 }
                 .chartLegend( showLegend ? .visible : .hidden)
             
