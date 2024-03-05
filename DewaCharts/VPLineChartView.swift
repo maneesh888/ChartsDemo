@@ -15,6 +15,9 @@ struct VPLineChartView: View {
     let data: [DWGraphData]
     let showLegend : Bool
     
+    let timeAxisValueFormat: Date.FormatStyle
+    
+    
     private var strideValue: Double {
         if let highestRoundedPointCeilingValue = data.highestRoundedPointCeilingValue {
             return ceil(highestRoundedPointCeilingValue/5)
@@ -62,7 +65,7 @@ struct VPLineChartView: View {
         .chartLegend( showLegend ? .visible : .hidden)
         .chartXAxis {
             AxisMarks(preset: .extended, values: .stride (by: timeStrideBy)) { value in
-                AxisValueLabel(format: .dateTime.month())
+                AxisValueLabel(format:  timeAxisValueFormat)
             }
         }
         .chartYAxis {
@@ -74,6 +77,6 @@ struct VPLineChartView: View {
 }
 
 #Preview {
-    VPLineChartView(timeStrideBy: .month, data: generateRandomData.combineYear, showLegend: true)
+    VPLineChartView(timeStrideBy: .month, data: yearlyData.combineYear, showLegend: true, timeAxisValueFormat: .dateTime.day())
 }
 

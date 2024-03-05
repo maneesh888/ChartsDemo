@@ -31,6 +31,13 @@ struct VPMixedChartView: View {
         }
     }
     
+    var timeAxisValueFormat: Date.FormatStyle {
+        switch config.period {
+        case .monthly: return .dateTime.day()
+        case .yearly: return .dateTime.month()
+        }
+    }
+    
     var body: some View {
         
         
@@ -51,7 +58,7 @@ struct VPMixedChartView: View {
                 }
                 .frame(maxWidth: .infinity)
                 
-                VPLineChartView(timeStrideBy: strideBy ,data: data.combineYear, showLegend: config.showLegend)
+                VPLineChartView(timeStrideBy: strideBy ,data: config.period == .monthly ? data : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
             case .electricity:
                 HStack {
                     Text(config.consuptionType.unitLabel)
@@ -66,7 +73,7 @@ struct VPMixedChartView: View {
                 }
                 .frame(maxWidth: .infinity)
                 VPBarMarkView(timeStrideBy: strideBy,
-                              data:data.combineYear, showLegend: config.showLegend)
+                              data:config.period == .monthly ? data : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
             }
         }.padding(5)
     }
@@ -128,8 +135,11 @@ extension [DWGraphData] {
         guard maxValue != -.greatestFiniteMagnitude else {
             return nil // Return nil if no points exist
         }
-        let roundedCeilingValue = (maxValue / 1000).rounded(.up) * 1000
-        return roundedCeilingValue
+        
+        // Calculate the magnitude of the rounding factor based on the number of digits in the maximum value
+            let magnitude = pow(10.0, floor(log10(maxValue)))
+            let nearestMultiple = ceil(maxValue / magnitude) * magnitude
+            return nearestMultiple
     }
     
 }

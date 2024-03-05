@@ -18,6 +18,8 @@ struct VPBarMarkView:View {
     let data: [DWGraphData]
     let showLegend: Bool
     
+    let timeAxisValueFormat: Date.FormatStyle
+    
     private var strideValue: Double {
         if let highestRoundedPointCeilingValue = data.highestRoundedPointCeilingValue {
             return ceil(highestRoundedPointCeilingValue/5)
@@ -28,24 +30,24 @@ struct VPBarMarkView:View {
     var body: some View {
                 Chart {
         
-                    ForEach(data, id: \.title) { year in // 3 loops
+                    ForEach(data, id: \.title) { item in
                         
-                        ForEach(year.points, id: \.time) {
+                        ForEach(item.points, id: \.time) {
                             
                             BarMark(
-                                x: .value("Month",  $0.time, unit: .month),
+                                x: .value("Time",  $0.time, unit: .day),
                                 y: .value("Consumption",  $0.value),
                                 width: 10
                             )
         
                         }
-                        .foregroundStyle(by: .value("Year", year.title))
-                        .position(by: .value("Year", year.title))
+                        .foregroundStyle(by: .value("Time", item.title))
+                        .position(by: .value("Time", item.title))
                     }
                 }
                 .chartXAxis {
                     AxisMarks(preset: .automatic, values: .stride (by: timeStrideBy)) { value in
-                        AxisValueLabel(format: .dateTime.month(), multiLabelAlignment:.top)
+                        AxisValueLabel(format: timeAxisValueFormat, multiLabelAlignment:.top)
                         
                     }
                 }
@@ -59,6 +61,6 @@ struct VPBarMarkView:View {
 }
 
 #Preview {
-    VPBarMarkView(timeStrideBy: .month, data:generateRandomData.combineYear, showLegend: true)
+    VPBarMarkView(timeStrideBy: .month, data: generateMonthlyData(forMonths: 1), showLegend: true, timeAxisValueFormat: .dateTime.day())
 }
 
