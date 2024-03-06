@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-let config = DWChartConfig(consuptionType: .electricity, data: generateMonthlyData(forMonths: [3,4]), period: .monthly, showLegend: true)
+let config = DWChartConfig(consuptionType: .electricity, data: generateMonthlyData(forMonths: ["2-2023", "2-2024"]), period: .monthly, showLegend: true)
 
 
 var yearlyData: [DWGraphData] {
@@ -61,10 +61,9 @@ var yearlyData: [DWGraphData] {
 }
 
 
-func generateMonthlyData(forMonths months: [Int]) -> [DWGraphData] {
+func generateMonthlyData(forMonths months: [String]) -> [DWGraphData] {
     var calendar = Calendar(identifier: .gregorian)
     calendar.timeZone = TimeZone(identifier: "UTC")!
-    let currentDate = Date()
 
     // Validate the months parameter
     guard !months.isEmpty else {
@@ -72,31 +71,27 @@ func generateMonthlyData(forMonths months: [Int]) -> [DWGraphData] {
         return []
     }
 
-    // Find the month with the most number of days
-    var maxDaysMonth = 1
-    for month in months {
-        var components = DateComponents()
-        components.year = calendar.component(.year, from: currentDate)
-        components.month = month
-        
-        if let date = calendar.date(from: components), let range = calendar.range(of: .day, in: .month, for: date) {
-            if range.count > maxDaysMonth {
-                maxDaysMonth = range.count
-            }
-        }
-    }
-
     // Generate data for each month
     var monthlyData: [DWGraphData] = []
-    for month in months {
+    for monthString in months {
+        let components = monthString.components(separatedBy: "-")
+        guard components.count == 2,
+              let year = Int(components[1]),
+              let month = Int(components[0]) else {
+            print("Invalid month format: \(monthString)")
+            continue
+        }
+        
         var points: [(time: Date, value: Double)] = []
         
-        // Generate random value for each day of the month up to the maximum number of days
-        for day in 1...maxDaysMonth {
-            // Create a date with the month and varying day component
-            if let date = calendar.date(from: DateComponents(year: calendar.component(.year, from: currentDate), month: month, day: day)) {
-                // Check if the date is valid for the current month
-                if calendar.component(.month, from: date) == month {
+        // Determine the maximum number of days for the month and year
+        if let date = calendar.date(from: DateComponents(year: year, month: month)),
+           let range = calendar.range(of: .day, in: .month, for: date) {
+            
+            // Generate random value for each day of the month up to the maximum number of days
+            for day in 1...range.count {
+                // Create a date with the month, year, and varying day component
+                if let date = calendar.date(from: DateComponents(year: year, month: month, day: day)) {
                     // Generate random value for each day
                     let randomValue = Double.random(in: 50..<150)
                     points.append((date, randomValue))
@@ -104,12 +99,12 @@ func generateMonthlyData(forMonths months: [Int]) -> [DWGraphData] {
             }
         }
         
-        // Assign color based on the index of the month
-        let colorIndex = month - 1 // Adjust index to start from 0
-        let color = Color.blue // You can assign a color based on your logic
+        
+        let colors: [Color] = [.red, .green, .blue, .orange, .yellow, .purple]
+        let color = colors.randomElement() ?? .black // You can assign a color based on your logic
         
         // Create DWGraphData for the month with the assigned color
-        let graphData = DWGraphData(title: "\(calendar.component(.year, from: currentDate))-\(month)", color: color, points: points)
+        let graphData = DWGraphData(title: "\(year)-\(month)", color: color, points: points)
         monthlyData.append(graphData)
     }
     

@@ -146,23 +146,23 @@ extension [DWGraphData] {
         var newData: [DWGraphData] = []
         
         // Find the most frequent month
-        var mostFrequentMonth = 1 // Default to January
+        var selectedMonth = 1
+        var selectedYear = 2000
         var maxDaysInMonth = 0
         
         for graphData in self {
             for point in graphData.points {
                 let daysInMonth = Calendar.current.range(of: .day, in: .month, for: point.0)?.count ?? 0
                 
-                if daysInMonth == 31 {
-                    // If there's a month with 31 days, use it as the selected month
-                    mostFrequentMonth = Calendar.current.component(.month, from: point.0)
-                    maxDaysInMonth = daysInMonth
-                    break // No need to continue checking other points
-                }
                 
                 if daysInMonth > maxDaysInMonth {
-                    mostFrequentMonth = Calendar.current.component(.month, from: point.0)
+                    selectedMonth = Calendar.current.component(.month, from: point.0)
+                    selectedYear = Calendar.current.component(.year, from: point.0)
                     maxDaysInMonth = daysInMonth
+                    
+                    if daysInMonth == 31 {
+                        break // No need to continue checking other points
+                    }
                 }
             }
         }
@@ -172,8 +172,9 @@ extension [DWGraphData] {
             var updatedPoints: [(Date, Double)] = []
             for point in graphData.points {
                 let originalDate = point.0
-                var dateComponents = Calendar.current.dateComponents([.year, .day, .hour, .minute, .second, .nanosecond], from: originalDate)
-                dateComponents.month = mostFrequentMonth
+                var dateComponents = Calendar.current.dateComponents([ .day], from: originalDate)
+                dateComponents.month = selectedMonth
+                dateComponents.year = selectedYear
                 let updatedDate = Calendar.current.date(from: dateComponents)!
                 updatedPoints.append((updatedDate, point.1))
             }
