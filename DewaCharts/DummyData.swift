@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-let config = DWChartConfig(consuptionType: .electricity, data: generateMonthlyData(forMonths: ["2-2023", "2-2024"]), period: .monthly, showLegend: true)
+
 
 
 var yearlyData: [DWGraphData] {

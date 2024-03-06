@@ -14,11 +14,28 @@ import Charts
 
 struct VPBarMarkView:View {
     
-    let timeStrideBy:Calendar.Component
+    let period: DWChartConfig.Period
     let data: [DWGraphData]
     let showLegend: Bool
     
-    let timeAxisValueFormat: Date.FormatStyle
+    var timeStrideBy:Calendar.Component {
+        switch period {
+        case .monthly:
+             return .day
+        case .yearly:
+            return .month
+        }
+    }
+    
+    
+    var timeAxisValueFormat: Date.FormatStyle {
+        switch period {
+        case .monthly:
+            return .dateTime.day()
+        case .yearly:
+            return .dateTime.month()
+        }
+    }
     
     private var strideValue: Double {
         if let highestRoundedPointCeilingValue = data.highestRoundedPointCeilingValue {
@@ -35,7 +52,7 @@ struct VPBarMarkView:View {
                         ForEach(item.points, id: \.time) {
                             
                             BarMark(
-                                x: .value("Time",  $0.time, unit: .day),
+                                x: .value("Time",  $0.time, unit: timeStrideBy),
                                 y: .value("Consumption",  $0.value),
                                 width: 10
                             )
@@ -61,6 +78,6 @@ struct VPBarMarkView:View {
 }
 
 #Preview {
-    VPBarMarkView(timeStrideBy: .month, data: generateMonthlyData(forMonths: ["2-2023", "2-2024"]), showLegend: true, timeAxisValueFormat: .dateTime.day())
+    VPBarMarkView(period: .yearly, data: yearlyData.combineYear, showLegend: true)
 }
 

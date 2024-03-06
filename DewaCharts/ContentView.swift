@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VPMixedChartView(config: config)
+        VPMixedChartView(config: Bool.random() ? yearlyConfig:monthlyConfig)
         //VPBarMarkViewOrg()
     }
 }

@@ -11,11 +11,29 @@ import Charts
 
 
 struct VPLineChartView: View {
-    let timeStrideBy:Calendar.Component
-    let data: [DWGraphData]
-    let showLegend : Bool
     
-    let timeAxisValueFormat: Date.FormatStyle
+    let period: DWChartConfig.Period
+    let data: [DWGraphData]
+    let showLegend: Bool
+    
+    var timeStrideBy:Calendar.Component {
+        switch period {
+        case .monthly:
+             return .day
+        case .yearly:
+            return .month
+        }
+    }
+    
+    
+    var timeAxisValueFormat: Date.FormatStyle {
+        switch period {
+        case .monthly:
+            return .dateTime.day()
+        case .yearly:
+            return .dateTime.month()
+        }
+    }
     
     
     private var strideValue: Double {
@@ -77,6 +95,6 @@ struct VPLineChartView: View {
 }
 
 #Preview {
-    VPLineChartView(timeStrideBy: .month, data: yearlyData.combineYear, showLegend: true, timeAxisValueFormat: .dateTime.day())
+    VPLineChartView(period: .monthly, data: yearlyData.combineYear, showLegend: true)
 }
 

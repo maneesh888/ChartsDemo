@@ -24,20 +24,6 @@ struct VPMixedChartView: View {
         config.data
     }
     
-    var strideBy: Calendar.Component {
-        switch config.period {
-        case .monthly: return .day
-        case .yearly: return .month
-        }
-    }
-    
-    var timeAxisValueFormat: Date.FormatStyle {
-        switch config.period {
-        case .monthly: return .dateTime.day()
-        case .yearly: return .dateTime.month()
-        }
-    }
-    
     var body: some View {
         
         
@@ -58,7 +44,7 @@ struct VPMixedChartView: View {
                 }
                 .frame(maxWidth: .infinity)
                 
-                VPLineChartView(timeStrideBy: strideBy ,data: config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
+                VPLineChartView(period:config.period ,data: config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend)
             case .electricity:
                 HStack {
                     Text(config.consuptionType.unitLabel)
@@ -72,8 +58,8 @@ struct VPMixedChartView: View {
                     .frame(maxWidth: 100)
                 }
                 .frame(maxWidth: .infinity)
-                VPBarMarkView(timeStrideBy: strideBy,
-                              data:config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
+                VPBarMarkView(period: config.period,
+                              data:config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend)
             }
         }.padding(5)
     }
@@ -188,6 +174,8 @@ extension [DWGraphData] {
     
 }
 
+let yearlyConfig = DWChartConfig(consuptionType: .electricity, data: yearlyData, period: .yearly, showLegend: true)
+let monthlyConfig = DWChartConfig(consuptionType: .electricity, data: generateMonthlyData(forMonths: ["2-2023", "2-2024"]), period: .monthly, showLegend: true)
 #Preview {
-    VPMixedChartView(config: config)
+    VPMixedChartView(config: Bool.random() ? yearlyConfig:monthlyConfig)
 }
