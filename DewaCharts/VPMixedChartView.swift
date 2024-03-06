@@ -58,7 +58,7 @@ struct VPMixedChartView: View {
                 }
                 .frame(maxWidth: .infinity)
                 
-                VPLineChartView(timeStrideBy: strideBy ,data: config.period == .monthly ? data : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
+                VPLineChartView(timeStrideBy: strideBy ,data: config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
             case .electricity:
                 HStack {
                     Text(config.consuptionType.unitLabel)
@@ -73,15 +73,13 @@ struct VPMixedChartView: View {
                 }
                 .frame(maxWidth: .infinity)
                 VPBarMarkView(timeStrideBy: strideBy,
-                              data:config.period == .monthly ? data : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
+                              data:config.period == .monthly ? data.combineMonth : data.combineYear, showLegend: config.showLegend, timeAxisValueFormat: timeAxisValueFormat)
             }
         }.padding(5)
     }
 }
 
-#Preview {
-    VPMixedChartView(config: config)
-}
+
 
 extension [DWGraphData] {
     var combineYear: [DWGraphData] {
@@ -115,9 +113,7 @@ extension [DWGraphData] {
             return newData
         }
     
-    var combineMonth: [DWGraphData] {
-        []
-    }
+   
     
     
     var highestRoundedPointCeilingValue: Double? {
@@ -142,4 +138,55 @@ extension [DWGraphData] {
             return nearestMultiple
     }
     
+    
+    var combineMonth: [DWGraphData] {
+        
+        guard self.count > 1 else { return self }
+        
+        var newData: [DWGraphData] = []
+        
+        // Find the most frequent month
+        var mostFrequentMonth = 1 // Default to January
+        var maxDaysInMonth = 0
+        
+        for graphData in self {
+            for point in graphData.points {
+                let daysInMonth = Calendar.current.range(of: .day, in: .month, for: point.0)?.count ?? 0
+                
+                if daysInMonth == 31 {
+                    // If there's a month with 31 days, use it as the selected month
+                    mostFrequentMonth = Calendar.current.component(.month, from: point.0)
+                    maxDaysInMonth = daysInMonth
+                    break // No need to continue checking other points
+                }
+                
+                if daysInMonth > maxDaysInMonth {
+                    mostFrequentMonth = Calendar.current.component(.month, from: point.0)
+                    maxDaysInMonth = daysInMonth
+                }
+            }
+        }
+        
+        // Update all points to have the selected month
+        for graphData in self {
+            var updatedPoints: [(Date, Double)] = []
+            for point in graphData.points {
+                let originalDate = point.0
+                var dateComponents = Calendar.current.dateComponents([.year, .day, .hour, .minute, .second, .nanosecond], from: originalDate)
+                dateComponents.month = mostFrequentMonth
+                let updatedDate = Calendar.current.date(from: dateComponents)!
+                updatedPoints.append((updatedDate, point.1))
+            }
+            
+            // Update the points of the graph data object
+            newData.append(DWGraphData(title: graphData.title, color: graphData.color, points: updatedPoints))
+        }
+        
+        return newData
+    }
+    
+}
+
+#Preview {
+    VPMixedChartView(config: config)
 }

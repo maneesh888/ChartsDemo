@@ -61,6 +61,6 @@ struct VPBarMarkView:View {
 }
 
 #Preview {
-    VPBarMarkView(timeStrideBy: .month, data: generateMonthlyData(forMonths: 1), showLegend: true, timeAxisValueFormat: .dateTime.day())
+    VPBarMarkView(timeStrideBy: .month, data: generateMonthlyData(forMonths: [1]), showLegend: true, timeAxisValueFormat: .dateTime.day())
 }
 
