@@ -73,13 +73,13 @@ extension [DWGraphData] {
             var newData: [DWGraphData] = []
             
             for var graphData in self {
-                var updatedPoints: [(Date, Double)] = []
+                var updatedPoints: [DWGraphData.DWGraphPoint] = []
                 
                 // Create a dictionary to store existing points by month
                 var existingPointsByMonth: [Int: Double] = [:]
-                for (date, value) in graphData.points {
-                    let month = Calendar.current.component(.month, from: date)
-                    existingPointsByMonth[month] = value
+                for point in graphData.points {
+                    let month = Calendar.current.component(.month, from: Date(timeIntervalSince1970: point.time))
+                    existingPointsByMonth[month] = point.value
                 }
                 
                 // Iterate through each month and fill in missing months with zero values
@@ -88,7 +88,7 @@ extension [DWGraphData] {
                     if let date = Calendar.current.date(from: dateComponents) {
                         let value = existingPointsByMonth[month] ?? 0.0
                         
-                        updatedPoints.append((date, value))
+                        updatedPoints.append(DWGraphData.DWGraphPoint(time: date.timeIntervalSince1970, value: value))
                     }
                 }
                 
@@ -108,8 +108,8 @@ extension [DWGraphData] {
         
         // Find the highest value among all points
         for graphData in self {
-            for (_, value) in graphData.points {
-                maxValue = Swift.max(maxValue, value)
+            for point in graphData.points {
+                maxValue = Swift.max(maxValue, point.value)
             }
         }
         
@@ -138,12 +138,12 @@ extension [DWGraphData] {
         
         for graphData in self {
             for point in graphData.points {
-                let daysInMonth = Calendar.current.range(of: .day, in: .month, for: point.0)?.count ?? 0
+                let daysInMonth = Calendar.current.range(of: .day, in: .month, for: Date(timeIntervalSince1970: point.time))?.count ?? 0
                 
                 
                 if daysInMonth > maxDaysInMonth {
-                    selectedMonth = Calendar.current.component(.month, from: point.0)
-                    selectedYear = Calendar.current.component(.year, from: point.0)
+                    selectedMonth = Calendar.current.component(.month, from: Date(timeIntervalSince1970: point.time))
+                    selectedYear = Calendar.current.component(.year, from: Date(timeIntervalSince1970: point.time))
                     maxDaysInMonth = daysInMonth
                     
                     if daysInMonth == 31 {
@@ -155,14 +155,14 @@ extension [DWGraphData] {
         
         // Update all points to have the selected month
         for graphData in self {
-            var updatedPoints: [(Date, Double)] = []
+            var updatedPoints: [DWGraphData.DWGraphPoint] = []
             for point in graphData.points {
-                let originalDate = point.0
+                let originalDate = Date(timeIntervalSince1970: point.time)
                 var dateComponents = Calendar.current.dateComponents([ .day], from: originalDate)
                 dateComponents.month = selectedMonth
                 dateComponents.year = selectedYear
                 let updatedDate = Calendar.current.date(from: dateComponents)!
-                updatedPoints.append((updatedDate, point.1))
+                updatedPoints.append(DWGraphData.DWGraphPoint(time: updatedDate.timeIntervalSince1970, value: point.value))
             }
             
             // Update the points of the graph data object

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Charts
 
 
 class DWChartConfig: ObservableObject {
@@ -53,10 +54,42 @@ class DWChartConfig: ObservableObject {
 
 struct DWGraphData: Identifiable {
 
-    let id = UUID()
-    let title: String // 2024
-    let color: Color
-    var points: [(time: Date, value: Double)]
+    var id = UUID()
+    let title: String
+    let color: GraphItemColor
+    var points: [DWGraphPoint]
     
+    struct DWGraphPoint {
+        
+        let time: TimeInterval
+        let value: Double
+    }
 }
 
+
+
+
+enum GraphItemColor: String, Codable {
+    case plot1, plot2, plot3
+    
+    var swiftUIColor: Color {
+        switch self {
+            
+        case .plot1:
+            return .yellow
+        case .plot2:
+            return .blue
+        case .plot3:
+            return .green
+        }
+    }
+}
+
+
+
+
+//extension Array where Element == DWGraphPoint {
+//    func toDateValuePairs() -> [(time: Date, value: Double)] {
+//        return self.map { (Date(timeIntervalSince1970: $0.time), $0.value) }
+//    }
+//}

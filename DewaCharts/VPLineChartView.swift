@@ -48,28 +48,29 @@ struct VPLineChartView: View {
         
         Chart {
             
-            ForEach (data, id: \.title) { year in
-                ForEach(year.points, id: \.time) {
+            ForEach (data, id: \.title) { item in
+                
+                ForEach(item.points, id: \.time) {
                     
                  //   if $0.value != 0 && Date() > $0.time {
                     
                         LineMark(
-                            x: .value("Weekday", $0.time),
+                            x: .value("Weekday", Date(timeIntervalSince1970: $0.time)),
                             y: .value("Value", $0.value)
                         )
                  //   }
                     
                 }
-                .foregroundStyle(year.color)
+                .foregroundStyle(item.color.swiftUIColor)
                 //                    .foregroundStyle(getLineGradient())
                 
-                .foregroundStyle(by: .value("Plot", year.title))
+                .foregroundStyle(by: .value("Plot", item.title))
                 //                           .interpolationMethod(.catmullRom)
                 .interpolationMethod(.linear)
                 .lineStyle(.init(lineWidth: 2))
                 .symbol {
                     Circle()
-                        .fill(year.color)
+                        .fill(item.color.swiftUIColor)
                         .frame(width: 12, height: 12)
                     //                                      .overlay {
                     //                                          Text(year.title)

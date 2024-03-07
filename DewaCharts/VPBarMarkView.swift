@@ -43,7 +43,6 @@ struct VPBarMarkView:View {
         }
         return 500
     }
-    
     var body: some View {
                 Chart {
         
@@ -52,12 +51,14 @@ struct VPBarMarkView:View {
                         ForEach(item.points, id: \.time) {
                             
                             BarMark(
-                                x: .value("Time",  $0.time, unit: timeStrideBy),
+                                x: .value("Time",  Date( timeIntervalSince1970: $0.time), unit: timeStrideBy),
                                 y: .value("Consumption",  $0.value),
                                 width: 10
                             )
+                            
         
                         }
+                        .foregroundStyle(item.color.swiftUIColor)
                         .foregroundStyle(by: .value("Time", item.title))
                         .position(by: .value("Time", item.title))
                     }
