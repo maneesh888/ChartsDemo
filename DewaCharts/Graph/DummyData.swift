@@ -60,7 +60,7 @@ func generateMonthlyData(forMonths months: [String]) -> [DWGraphData] {
     return monthlyData
 }
 
-var yearlyData: [DWGraphData] {
+var yearlyDummyData: [DWGraphData] {
     var calendar = Calendar(identifier: .gregorian)
     calendar.timeZone = TimeZone(identifier: "UTC")!
     let currentYear = calendar.component(.year, from: Date())
@@ -109,5 +109,6 @@ var yearlyData: [DWGraphData] {
     
     return graphDataArray
 }
+
 
 

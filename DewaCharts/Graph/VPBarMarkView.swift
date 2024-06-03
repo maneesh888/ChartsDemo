@@ -1,8 +1,8 @@
 //
-//  VPLineChartView.swift
+//  VPBarMarkView.swift
 //  DEWAVisionPro
 //
-//  Created by Satham Hussain on 25/02/2024.
+//  Created by Satham Hussain on 28/02/2024.
 //  Copyright © 2024 DEWA. All rights reserved.
 //
 
@@ -10,16 +10,18 @@ import SwiftUI
 import Charts
 
 
-struct VPLineChartView: View {
+
+
+struct VPBarMarkView:View {
     
-    let period: DWChartConfig.Period
+    let period: DWChartPeriod
     let data: [DWGraphData]
     let showLegend: Bool
     
     var timeStrideBy:Calendar.Component {
         switch period {
         case .monthly:
-             return .day
+            return .day
         case .yearly:
             return .month
         }
@@ -35,57 +37,43 @@ struct VPLineChartView: View {
         }
     }
     
-    
     private var strideValue: Double {
         if let highestRoundedPointCeilingValue = data.highestRoundedPointCeilingValue {
             return ceil(highestRoundedPointCeilingValue/5)
         }
         return 500
     }
-    
     var body: some View {
-        
-        
         Chart {
             
-            ForEach (data, id: \.title) { item in
+            ForEach(data, id: \.title) { item in
                 
                 ForEach(item.points, id: \.time) {
                     
-                 //   if $0.value != 0 && Date() > $0.time {
+                    BarMark(
+                        x: .value("Time",  Date( timeIntervalSince1970: $0.time), unit: timeStrideBy),
+                        y: .value("Consumption",  $0.value),
+                        width: 10
+                    )
                     
-                        LineMark(
-                            x: .value("Weekday", Date(timeIntervalSince1970: $0.time)),
-                            y: .value("Value", $0.value)
-                        )
-                 //   }
                     
-                }
-                .foregroundStyle(item.color.swiftUIColor)
-                //                    .foregroundStyle(getLineGradient())
-                
-                .foregroundStyle(by: .value("Plot", item.title))
-                //                           .interpolationMethod(.catmullRom)
-                .interpolationMethod(.linear)
-                .lineStyle(.init(lineWidth: 2))
-                .symbol {
-                    Circle()
-                        .fill(item.color.swiftUIColor)
-                        .frame(width: 12, height: 12)
-
-                }
-                
+                }.clipShape(Rectangle())
+                    .cornerRadius(15)
+                    .foregroundStyle(item.color.swiftUIColor)
+                    .foregroundStyle(by: .value("Time", item.title))
+                    .position(by: .value("Time", item.title))
             }
         }
-        .chartLegend( showLegend ? .visible : .hidden)
         .chartXAxis {
-            AxisMarks(preset: .extended, values: .stride (by: timeStrideBy)) { value in
-                AxisValueLabel(format:  timeAxisValueFormat)
+            AxisMarks(preset: .automatic, values: .stride (by: timeStrideBy)) { value in
+                AxisValueLabel(format: timeAxisValueFormat, centered: true, multiLabelAlignment:.top)
+                
             }
         }
         .chartYAxis {
             AxisMarks(preset: .extended, position: .leading, values: .stride(by: strideValue))
         }
+        .chartLegend( showLegend ? .visible : .hidden)
         .chartLegend(position: .bottom) {
             
             HStack ( spacing: 10) {
@@ -104,11 +92,10 @@ struct VPLineChartView: View {
             
         }
     }
-    
-    
 }
 
 #Preview {
-    VPLineChartView(period: .monthly, data: yearlyData.combineYear, showLegend: true)
+    VPBarMarkView(period: .yearly, data: yearlyData.combineYear, showLegend: true)
 }
+
 

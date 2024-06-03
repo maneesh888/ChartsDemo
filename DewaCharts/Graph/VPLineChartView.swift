@@ -12,7 +12,7 @@ import Charts
 
 struct VPLineChartView: View {
     
-    let period: DWChartConfig.Period
+    let period: DWChartPeriod
     let data: [DWGraphData]
     let showLegend: Bool
     
@@ -52,29 +52,21 @@ struct VPLineChartView: View {
                 
                 ForEach(item.points, id: \.time) {
                     
-                 //   if $0.value != 0 && Date() > $0.time {
-                    
                         LineMark(
                             x: .value("Weekday", Date(timeIntervalSince1970: $0.time)),
                             y: .value("Value", $0.value)
                         )
-                 //   }
-                    
+
                 }
                 .foregroundStyle(item.color.swiftUIColor)
-                //                    .foregroundStyle(getLineGradient())
-                
-                .foregroundStyle(by: .value("Plot", item.title))
-                //                           .interpolationMethod(.catmullRom)
+                .foregroundStyle(by: .value("Plot", item.title))                 .interpolationMethod(.catmullRom)
                 .interpolationMethod(.linear)
                 .lineStyle(.init(lineWidth: 2))
                 .symbol {
                     Circle()
                         .fill(item.color.swiftUIColor)
                         .frame(width: 12, height: 12)
-
                 }
-                
             }
         }
         .chartLegend( showLegend ? .visible : .hidden)
@@ -111,4 +103,5 @@ struct VPLineChartView: View {
 #Preview {
     VPLineChartView(period: .monthly, data: yearlyData.combineYear, showLegend: true)
 }
+
 

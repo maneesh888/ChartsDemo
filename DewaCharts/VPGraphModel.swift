@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+
+
+import SwiftUI
 import Charts
 
 
@@ -23,29 +26,42 @@ class DWChartConfig: ObservableObject {
                 return "kWh"
             }
         }
-        
-        var icon:String {
-            switch self {
-            case .water:
-                return "💙"
-            case .electricity:
-                return "💚"
-            }
-        }
-        
     }
     
-    enum Period {
-        case monthly, yearly
+    enum GraphType: String, CaseIterable {
+        case bar, line
+        var typeIcon: String {
+            switch self {
+            case .bar:
+                return "chart.bar.xaxis.ascending"
+            case .line:
+                return "chart.xyaxis.line"
+           
+            }
+        }
+    }
+    
+    enum Period: String, CaseIterable {
+        case yearly, monthly 
+        var title: String{
+            switch self {
+            case .monthly:
+                return "Daily"
+            case .yearly:
+                return "Monthly"
+            }
+        }
     }
     
     @Published var consuptionType: ConstumptionType
+    @Published var graphType: GraphType
     var data: [DWGraphData] = []
     var period: Period
     var showLegend: Bool = false
     
-    init(consuptionType: ConstumptionType, data: [DWGraphData], period: Period, showLegend: Bool) {
+    init(consuptionType: ConstumptionType, graphType: GraphType, data: [DWGraphData], period: Period, showLegend: Bool) {
         self.consuptionType = consuptionType
+        self.graphType = graphType
         self.data = data
         self.period = period
         self.showLegend = showLegend
@@ -76,20 +92,13 @@ enum GraphItemColor: String, Codable {
         switch self {
             
         case .plot1:
-            return .yellow
+            return .primaryButtonBgColor
         case .plot2:
-            return .blue
+            return .waterBgColor
         case .plot3:
-            return .green
+            return .slabYellow
         }
     }
 }
 
 
-
-
-//extension Array where Element == DWGraphPoint {
-//    func toDateValuePairs() -> [(time: Date, value: Double)] {
-//        return self.map { (Date(timeIntervalSince1970: $0.time), $0.value) }
-//    }
-//}

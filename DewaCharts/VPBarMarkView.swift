@@ -72,6 +72,23 @@ struct VPBarMarkView:View {
                 .chartYAxis {
                     AxisMarks(preset: .extended, position: .leading, values: .stride(by: strideValue))
                 }
+                .chartLegend(position: .bottom) {
+                    
+                    HStack ( spacing: 10) {
+                        ForEach(data, id: \.id) { symbol in
+                            HStack {
+                                BasicChartSymbolShape.circle
+                                    .foregroundColor(symbol.color.swiftUIColor)
+                                    .frame(width: 8, height: 8)
+                                Text(symbol.title)
+                                    .foregroundColor(.gray)
+                                    .font(.caption)
+                            }
+                        }
+                    }
+                    .padding()
+                    
+                }
                 .chartLegend( showLegend ? .visible : .hidden)
             
         
